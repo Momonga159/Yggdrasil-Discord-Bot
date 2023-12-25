@@ -24,7 +24,8 @@ module.exports = {
   ],
 
   callback: async (client, interaction) => {
-    const suggestion_input = interaction.options.get("reason")?.value || "No suggestion provided";
+    const suggestion_input =
+      interaction.options.get("suggestion")?.value || "No suggestion provided";
 
     await interaction.deferReply();
 
@@ -32,9 +33,11 @@ module.exports = {
     const kEmbed = new EmbedBuilder()
       .setColor("Red")
       .setDescription("__**A new suggestion is here.**__")
-      .addFields(
-        { name: "Suggestion:", value: `${suggestion_input}`, inline: true },
-      );
+      .addFields({
+        name: "Suggestion:",
+        value: `${suggestion_input}`,
+        inline: true,
+      });
     channel.send({ embeds: [kEmbed] });
 
     interaction.deleteReply();
