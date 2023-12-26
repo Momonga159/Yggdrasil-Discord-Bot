@@ -6,7 +6,8 @@ module.exports = {
   // options: Object[],
   // deleted: Boolean,
 
-  callback: (client, interaction) => {
-    interaction.reply(`Pong! ${client.ws.ping}ms`);
+  callback: async (client, interaction) => {
+    await interaction.reply({content: `Pong! ${client.ws.ping}ms`, ephemeral: true});
+    await interaction.followUp({ content: 'Pong again!', ephemeral: true });
   },
 };

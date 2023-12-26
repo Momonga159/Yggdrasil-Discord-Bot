@@ -19,7 +19,7 @@
  - Description: Make an announcement in the server.
 
 ### 5. Giveaway Command
-- Command: `/giveaway [price] [time]`
+- Command: `/giveaway [price] [description] [time]`
  - Description: Start a giveaway with a specified price and time.
 
 ### 6. Accept Command
@@ -36,26 +36,22 @@
 
 ## User Commands
 
-### 1. Link Command
-- Command: `/link`
- - Description: Give all the important links of the server.
-
-### 2. Recruitement Command
+### 1. Recruitement Command
 - Command: `/recruitement-staff`
  - Description: Apply for a staff position in the server.
 
-### 3. Unban Request Command
+### 2. Unban Request Command
 - Command: `/unban-request [detail]`
  - Description: Request to be unbanned from the server with the detail of the ban.
 
-### 4. Ticket Command
+### 3. Ticket Command
 - Command: `/ticket [issue]`
  - Description: Create a help ticket for server-related (discord & in-game) issues.
 
-### 5. Help Command
+### 4. Help Command
 - Command: `/help`
  - Description: Display all commands available for users.
 
-### 6. Suggestion Command
+### 5. Suggestion Command
 - Command: `/suggestion [idea]`
  - Description: Submit a suggestion to improve the server
