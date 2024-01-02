@@ -17,8 +17,7 @@ module.exports = {
       required: true,
     },
   ],
-  permissionsRequired: [PermissionFlagsBits.KickMembers],
-  botPermissions: [PermissionFlagsBits.KickMembers],
+  permissionsRequired: [PermissionFlagsBits.Administrator],
   /**
    * @param {Client} client
    * @param {Interaction} interaction

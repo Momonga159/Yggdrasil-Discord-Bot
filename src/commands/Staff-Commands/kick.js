@@ -18,13 +18,12 @@ module.exports = {
     },
     {
       name: "reason",
-      description: "The reason you want to kick.",
+      description: "The reason you want to kick this user.",
       type: ApplicationCommandOptionType.String,
       required: true,
     },
   ],
   permissionsRequired: [PermissionFlagsBits.KickMembers],
-  botPermissions: [PermissionFlagsBits.KickMembers],
   /**
    *
    * @param {Client} client

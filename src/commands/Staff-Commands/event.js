@@ -8,7 +8,7 @@ const {
 
 module.exports = {
   name: "event",
-  description: "Create an event in the event channel.",
+  description: "Send a message in the event channel.",
   options: [
     {
       name: "title",
@@ -23,6 +23,7 @@ module.exports = {
       required: true,
     },
   ],
+  permissionsRequired: [PermissionFlagsBits.Administrator],
   /**
    * @param {Client} client
    * @param {Interaction} interaction

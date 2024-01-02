@@ -8,7 +8,7 @@ const {
 
 module.exports = {
   name: "ban",
-  description: "ban a member from this server.",
+  description: "Ban a member from this server.",
   options: [
     {
       name: "target-user",
@@ -18,13 +18,12 @@ module.exports = {
     },
     {
       name: "reason",
-      description: "The reason you want to ban.",
+      description: "The reason you want to ban this user.",
       type: ApplicationCommandOptionType.String,
       required: true,
     },
   ],
   permissionsRequired: [PermissionFlagsBits.banMembers],
-  botPermissions: [PermissionFlagsBits.banMembers],
   /**
    *
    * @param {Client} client

@@ -7,6 +7,23 @@ const {
 } = require("discord.js");
 
 module.exports = {
+  name: "changelog",
+  description: "Sends a message to the change-log channel.",
+  options: [
+    {
+      name: "title",
+      description: "Please provide the title for the changelog.",
+      type: ApplicationCommandOptionType.String,
+      required: true,
+    },
+    {
+      name: "changelog",
+      description: "Please provide the information of the changelog.",
+      type: ApplicationCommandOptionType.String,
+      required: true,
+    },
+  ],
+  permissionsRequired: [PermissionFlagsBits.KickMembers],
   /**
    * @param {Client} client
    * @param {Interaction} interaction
@@ -38,23 +55,4 @@ module.exports = {
 
     interaction.deleteReply();
   },
-
-  name: "changelog",
-  description: "Sends a message to the change-log channel.",
-  options: [
-    {
-      name: "title",
-      description: "Please provide the title for the changelog.",
-      type: ApplicationCommandOptionType.String,
-      required: true,
-    },
-    {
-      name: "changelog",
-      description: "Please provide the information of the changelog.",
-      type: ApplicationCommandOptionType.String,
-      required: true,
-    },
-  ],
-  permissionsRequired: [PermissionFlagsBits.KickMembers],
-  botPermissions: [PermissionFlagsBits.KickMembers],
 };
