@@ -1,35 +1,23 @@
-const {
-  Client,
-  Interaction,
-  ApplicationCommandOptionType,
-  PermissionFlagsBits,
-  EmbedBuilder,
-} = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 
 module.exports = {
-  name: "event",
-  description: "Send a message in the event channel.",
-  options: [
-    {
-      name: "title",
-      description: "The title of the event.",
-      type: ApplicationCommandOptionType.String,
-      required: true,
-    },
-    {
-      name: "description",
-      description: "The description of the event.",
-      type: ApplicationCommandOptionType.String,
-      required: true,
-    },
-  ],
-  permissionsRequired: [PermissionFlagsBits.Administrator],
-  /**
-   * @param {Client} client
-   * @param {Interaction} interaction
-   */
+  data: new SlashCommandBuilder()
+    .setName("event")
+    .setDescription("Make an event.")
+    .addStringOption((option) =>
+      option
+        .setName("title")
+        .setDescription("The title of the event.")
+        .setRequired(true)
+    )
+    .addStringOption((option) =>
+      option
+        .setName("description")
+        .setDescription("The description of the event.")
+        .setRequired(true)
+    ),
 
-  callback: async (client, interaction) => {
+  run: async ({ client, interaction }) => {
     const title = interaction.options.get("title").value;
     const description = interaction.options.get("description").value;
 
@@ -54,4 +42,5 @@ module.exports = {
     await channel.send({ embeds: [eEmbed] });
     interaction.deleteReply();
   },
+  adminOnly: true,
 };

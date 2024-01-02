@@ -1,19 +1,17 @@
 const {
+  SlashCommandBuilder,
   ActionRowBuilder,
   ButtonBuilder,
   EmbedBuilder,
-  PermissionsBitField,
   ButtonStyle,
-  PermissionFlagsBits,
-  ApplicationCommandOptionType,
 } = require("discord.js");
 
 module.exports = {
-  name: "verify-setup",
-  description: "Verify message",
-  permissionsRequired: [PermissionFlagsBits.Administrator],
+  data: new SlashCommandBuilder()
+    .setName("verify-setup")
+    .setDescription("Sends the setup for the verification system."),
 
-  callback: async (client, interaction) => {
+  run: async ({ client, interaction }) => {
     const button = new ButtonBuilder()
       .setCustomId("button")
       .setLabel("Verify")

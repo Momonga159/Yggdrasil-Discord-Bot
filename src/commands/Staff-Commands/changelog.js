@@ -1,35 +1,26 @@
 const {
-  Client,
-  Interaction,
-  ApplicationCommandOptionType,
-  PermissionFlagsBits,
+  SlashCommandBuilder,
   EmbedBuilder,
 } = require("discord.js");
 
 module.exports = {
-  name: "changelog",
-  description: "Sends a message to the change-log channel.",
-  options: [
-    {
-      name: "title",
-      description: "Please provide the title for the changelog.",
-      type: ApplicationCommandOptionType.String,
-      required: true,
-    },
-    {
-      name: "changelog",
-      description: "Please provide the information of the changelog.",
-      type: ApplicationCommandOptionType.String,
-      required: true,
-    },
-  ],
-  permissionsRequired: [PermissionFlagsBits.KickMembers],
-  /**
-   * @param {Client} client
-   * @param {Interaction} interaction
-   */
+  data: new SlashCommandBuilder()
+    .setName("changelog")
+    .setDescription("Sends a changelog.")
+    .addStringOption((option) =>
+      option
+        .setName("title")
+        .setDescription("The title of the changelog.")
+        .setRequired(true)
+    )
+    .addStringOption((option) =>
+      option
+        .setName("changelog")
+        .setDescription("The changelog.")
+        .setRequired(true)
+    ),
 
-  callback: async (client, interaction) => {
+  run: async ({ client, interaction }) => {
     const title1 = interaction.options.get("title")?.value || "N/A";
     const changelog1 = interaction.options.get("changelog")?.value || "N/A";
 
@@ -55,4 +46,5 @@ module.exports = {
 
     interaction.deleteReply();
   },
+  adminOnly: true,
 };

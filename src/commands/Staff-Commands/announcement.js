@@ -1,31 +1,23 @@
 const {
-  Client,
-  Interaction,
-  ApplicationCommandOptionType,
-  PermissionFlagsBits,
+  SlashCommandBuilder,
   EmbedBuilder,
 } = require("discord.js");
 
 module.exports = {
-  name: "announcement",
-  description: "Sends a message to the announcements channel.",
-  options: [
-    {
-      name: "message",
-      description: "The message you want to send in the announcements channel.",
-      type: ApplicationCommandOptionType.String,
-      required: true,
-    },
-  ],
-  permissionsRequired: [PermissionFlagsBits.Administrator],
-  /**
-   * @param {Client} client
-   * @param {Interaction} interaction
-   */
+  data: new SlashCommandBuilder()
+    .setName("announcement")
+    .setDescription("Sends a message to the announcements channel.")
+    .addStringOption((option) =>
+      option
+        .setName("message")
+        .setDescription(
+          "The message you want to send in the announcements channel."
+        )
+        .setRequired(true)
+    ),
 
-  callback: async (client, interaction) => {
-    const message =
-      interaction.options.get("message")?.value || "No message provided";
+  run: async ({ client, interaction }) => {
+    const message = interaction.options.getString("message")?.value || "No message provided";
 
     await interaction.deferReply();
 
@@ -44,8 +36,10 @@ module.exports = {
         text: "By Yggdrasil-Bot | made by _Momonga_",
         iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
       });
+
     channel.send(`@everyone`);
     channel.send({ embeds: [aEmbed] });
     interaction.deleteReply();
   },
+  adminOnly: true,
 };

@@ -1,37 +1,27 @@
 const {
-  Client,
-  Interaction,
-  ApplicationCommandOptionType,
-  PermissionFlagsBits,
+  SlashCommandBuilder,
   EmbedBuilder,
 } = require("discord.js");
 
 module.exports = {
-  name: "ban",
-  description: "Ban a member from this server.",
-  options: [
-    {
-      name: "target-user",
-      description: "The user you want to ban.",
-      type: ApplicationCommandOptionType.Mentionable,
-      required: true,
-    },
-    {
-      name: "reason",
-      description: "The reason you want to ban this user.",
-      type: ApplicationCommandOptionType.String,
-      required: true,
-    },
-  ],
-  permissionsRequired: [PermissionFlagsBits.banMembers],
-  /**
-   *
-   * @param {Client} client
-   * @param {Interaction} interaction
-   */
+  data: new SlashCommandBuilder()
+    .setName("ban")
+    .setDescription("Bans a user from the server.")
+    .addUserOption((option) =>
+      option
+        .setName("user")
+        .setDescription("The user you want to ban.")
+        .setRequired(true)
+    )
+    .addStringOption((option) =>
+      option
+        .setName("reason")
+        .setDescription("The reason for the ban.")
+        .setRequired(true)
+    ),
 
-  callback: async (client, interaction) => {
-    const targetUserId = interaction.options.get("target-user").value;
+  run: async ({ client, interaction }) => {
+    const targetUserId = interaction.options.get("user").value;
     const reason =
       interaction.options.get("reason")?.value || "No reason provided";
 
@@ -70,7 +60,7 @@ module.exports = {
     }
 
     try {
-      await targetUser.ban({ reason });
+        await targetUser.ban({ reason });
 
       const channel = client.channels.cache.get("1187156449978228807"); // ID of the mod-log channel
       const kEmbed = new EmbedBuilder()
@@ -87,9 +77,9 @@ module.exports = {
         });
       channel.send({ embeds: [kEmbed] });
     } catch (error) {
-      console.log(`There was an error when banning: ${error}`);
+        console.log(`There was an error while banning a user: ${error}`);
     }
-
     interaction.deleteReply();
   },
+  adminOnly: true,
 };

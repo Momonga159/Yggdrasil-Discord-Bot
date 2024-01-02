@@ -1,8 +1,10 @@
-require("dotenv").config();
+require("dotenv/config");
+
 const { Client, IntentsBitField } = require("discord.js");
 const mongoose = require("mongoose");
 const mongoURL = process.env.MONGO_URL;
-const eventHandler = require("./handlers/eventHandler");
+const { CommandHandler } = require('djs-commander'); 
+const path = require('path');
 
 const client = new Client({
   intents: [
@@ -10,10 +12,18 @@ const client = new Client({
     IntentsBitField.Flags.GuildMembers,
     IntentsBitField.Flags.GuildMessages,
     IntentsBitField.Flags.MessageContent,
+    IntentsBitField.Flags.GuildMessageReactions,
   ],
 });
 
-eventHandler(client);
+new CommandHandler({
+  client,
+  commandsPath : path.join(__dirname, 'commands'),
+  eventsPath : path.join(__dirname, 'events'),
+  validationsPath : path.join(__dirname, 'validations'),
+  testServer: process.env.TEST_SERVER_ID,
+
+});
 
 
 client.login(process.env.TOKEN);
