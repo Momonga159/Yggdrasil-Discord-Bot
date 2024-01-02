@@ -69,7 +69,6 @@ module.exports = {
       return;
     }
 
-    // ban the targetUser
     try {
       await targetUser.ban({ reason });
 

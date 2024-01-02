@@ -69,7 +69,6 @@ module.exports = {
       return;
     }
 
-    // Kick the targetUser
     try {
       await targetUser.kick({ reason });
 
