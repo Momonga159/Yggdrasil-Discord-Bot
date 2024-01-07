@@ -26,4 +26,9 @@ new CommandHandler({
 });
 
 
+client.on("guildMemberAdd", () => {
+  
+console.log("Ready!");
+})
+
 client.login(process.env.TOKEN);

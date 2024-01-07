@@ -2,8 +2,7 @@ const { Schema, model } = require('mongoose');
 
 let ticketSchema = new Schema({
     Guild: String,
-    Channel: String,
-    Ticket: String,
+    Category: String,
 });
 
-module.exports = model('ticketSchema', ticketSchema);
+module.exports = model('ticketSchema159', ticketSchema);

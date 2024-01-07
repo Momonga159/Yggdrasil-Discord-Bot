@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const mongoURL = process.env.MONGO_URL;
 
-module.exports = async (client) => {
+module.exports = async () => {
   if (!mongoURL) return;
 
   await mongoose.connect(mongoURL || "", {
