@@ -5,10 +5,11 @@ const {
   ActionRowBuilder,
   StringSelectMenuBuilder,
   ChannelType,
+  ButtonBuilder,
+  ButtonStyle
 } = require("discord.js");
 
 const ticket = require("../../schemas/ticketSchema");
-const { createTranscript } = require("discord-html-transcripts");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -63,26 +64,23 @@ module.exports = {
         const text = options.getString("text");
         var message =
           options.getString("message") ||
-          "Create a ticket to talk with the server staff! Once you select below, use the input to describe why you are creating a ticket.";
+          ">>> Create a ticket to talk with the server staff! Once you clic below, use the input to describe why you are creating a ticket.";
 
         const select = new ActionRowBuilder().addComponents(
-          new StringSelectMenuBuilder()
+          new ButtonBuilder()
             .setCustomId("ticketCreateSelect")
-            .setPlaceholder(`${text}`)
-            .addOptions({
-              label: "Create your ticket",
-              description: "Click to begin the ticket creation process.",
-              value: "createTicket",
-            })
+            .setLabel(`${text}`)
+            .setStyle(ButtonStyle.Primary)
+            .setEmoji("🎫")
         );
         const embed = new EmbedBuilder()
-          .setColor("DarkVividPink")
+          .setColor("Green")
           .setTitle(`Create a ticket !`)
-          .setDescription(message + " 🎫")
+          .setDescription(message + " 🎫 \n\n**Note:** Please be patient and respectful while we help you.")
           .setFooter({
-            text: `${interaction.guild.name}`,
-            iconURL: `${interaction.guild.iconURL()}`,
-          });
+            text: "By Yggdrasil-Bot | made by _Momonga_",
+            iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+          })
 
         await interaction.reply({
           content: `I have sent your ticket message below.`,

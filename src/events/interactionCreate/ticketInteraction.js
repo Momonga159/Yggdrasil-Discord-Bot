@@ -13,8 +13,26 @@ const {
 const ticket = require("../../schemas/ticketSchema");
 const { createTranscript } = require("discord-html-transcripts");
 
-module.exports = async (interaction) => {
+module.exports = async (interaction, client) => {
   if (interaction.customId == "ticketCreateSelect") {
+    const user = interaction.user;
+    const existingChannel = interaction.guild.channels.cache.find(
+      (channel) => channel.name === `ticket-${user.id}`
+    );
+    const erEmbed = new EmbedBuilder()
+      .setColor("DarkRed")
+      .setTitle(`Ticket Error`)
+      .setDescription(`You already have a ticket open at: ${existingChannel}`)
+      .setFooter({
+        text: "By Yggdrasil-Bot | made by _Momonga_",
+        iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+      });
+    if (existingChannel)
+      return await interaction.reply({
+        embeds: [erEmbed],
+        ephemeral: true,
+      });
+
     const modal = new ModalBuilder()
       .setTitle(`Create your ticket`)
       .setCustomId("ticketModal");
@@ -22,15 +40,15 @@ module.exports = async (interaction) => {
     const why = new TextInputBuilder()
       .setCustomId("whyTicket")
       .setRequired(true)
-      .setPlaceholder("What is the reason for creating this ticket ?")
-      .setLabel("Why are you creating this ticket ?")
-      .setStyle(TextInputStyle.Paragraph);
+      .setLabel("Title of the issue")
+      .setPlaceholder("Please provide if it's Discord or In-Game related.")
+      .setStyle(TextInputStyle.Short);
 
     const info = new TextInputBuilder()
       .setCustomId("infoTicket")
-      .setRequired(false)
-      .setPlaceholder("Feel free to leave this blank.")
-      .setLabel("Provide us with any additional information.")
+      .setRequired(true)
+      .setLabel("Please explain your issue.")
+      .setPlaceholder("Please provide as much information as possible.")
       .setStyle(TextInputStyle.Paragraph);
 
     const one = new ActionRowBuilder().addComponents(why);
@@ -52,6 +70,7 @@ module.exports = async (interaction) => {
       const category = await interaction.guild.channels.cache.get(
         data.Category
       );
+
       const channel = await interaction.guild.channels.create({
         name: `ticket-${user.id}`,
         type: ChannelType.GuildText,
@@ -72,12 +91,15 @@ module.exports = async (interaction) => {
           },
         ],
       });
-
+      
       const embed = new EmbedBuilder()
         .setColor("DarkGreen")
         .setTitle(`Ticket from ${user.username} 🎫`)
         .setDescription(
-          `Opening Reason: ${why}\n\nExtra Information: ${info}`
+          `
+          >>> **User:**\n\n \`${user.username}\` \n\n
+           **Subject:**\n\n \`${why} \` \n\n
+           **Information:**\n\n \`${info}\``
         )
         .setTimestamp();
 
@@ -94,8 +116,17 @@ module.exports = async (interaction) => {
       );
 
       await channel.send({ embeds: [embed], components: [button] });
+      const otEmbed = new EmbedBuilder()
+        .setColor("DarkGreen")
+        .setTitle(`Ticket Opened`)
+        .setDescription(`Your ticket has been opened in ${channel}`)
+        .setTimestamp()
+        .setFooter({
+          text: "By Yggdrasil-Bot | made by _Momonga_",
+          iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+        });
       await interaction.reply({
-        content: `Your ticket has been opened in ${channel}`,
+        embeds: [otEmbed],
         ephemeral: true,
       });
     }
@@ -122,18 +153,28 @@ module.exports = async (interaction) => {
     const member = await interaction.guild.members.cache.get(name);
 
     const reason = interaction.fields.getTextInputValue("closeReasonTicket");
+    const cEmbed = new EmbedBuilder()
+      .setColor("DarkOrange")
+      .setTitle(`Ticket Closed`)
+      .setDescription("Closing this ticket...")
+      .setFooter({
+        text: "By Yggdrasil-Bot | made by _Momonga_",
+        iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+      });
     await interaction.reply({
-      content: `Closing this ticket...`,
+      embeds: [cEmbed],
       ephemeral: true,
     });
 
+    const nEmbed = new EmbedBuilder()
+      .setColor("DarkGreen")
+      .setTitle(`Ticket Closed`)
+      .setDescription(
+        `You are receiving this notification because your ticket in **${interaction.guild.name}** has been closed for: \n\n \`${reason}\``
+      );
     setTimeout(async () => {
       await channel.delete().catch(() => {});
-      await member
-        .send(
-          `You are receiving this notification because your ticket in ${interaction.guild.name} has been closed for: \`${reason}\``
-        )
-        .catch(() => {});
+      await member.send({ embeds: [nEmbed]}).catch(() => {});
     }, 5000);
   } else if (interaction.customId == "ticketTranscript") {
     const file = await createTranscript(interaction.channel, {
@@ -146,11 +187,11 @@ module.exports = async (interaction) => {
       content: `Your transcript cache:`,
       files: [file],
     });
-    var message = `**Here is your [ticket transcript] (https://mahto.id/chat-exporter?url=${
-      msg.attachments.first()?.url
-    }) 
-    from ${interaction.guild.name}**`;
+    const tEmbed = new EmbedBuilder()
+    .setColor("Purple")
+    .setTitle(` 📜 [ Ticket Transcript ]`)
+    .setURL(`https://mahto.id/chat-exporter?url=${msg.attachments.first()?.url}`)
     await msg.delete().catch(() => {});
-    await interaction.reply({ content: message, ephemeral: true });
+    await interaction.reply({ embeds: [tEmbed]});
   }
 };
