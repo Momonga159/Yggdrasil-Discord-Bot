@@ -3,7 +3,6 @@ const {
   EmbedBuilder,
   PermissionsBitField,
   ActionRowBuilder,
-  StringSelectMenuBuilder,
   ChannelType,
   ButtonBuilder,
   ButtonStyle
@@ -126,4 +125,5 @@ module.exports = {
         }
     }
   },
+  adminOnly: true,
 };

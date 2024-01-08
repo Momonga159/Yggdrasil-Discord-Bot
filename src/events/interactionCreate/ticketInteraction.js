@@ -13,7 +13,7 @@ const {
 const ticket = require("../../schemas/ticketSchema");
 const { createTranscript } = require("discord-html-transcripts");
 
-module.exports = async (interaction, client) => {
+module.exports = async (interaction) => {
   if (interaction.customId == "ticketCreateSelect") {
     const user = interaction.user;
     const existingChannel = interaction.guild.channels.cache.find(
