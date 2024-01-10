@@ -13,7 +13,12 @@ const {
 const ticket = require("../../schemas/ticketSchema");
 const { createTranscript } = require("discord-html-transcripts");
 
-module.exports = async (interaction) => {
+module.exports = async (interaction, client) => {
+  if (!interaction) {
+    console.error('interaction is undefined');
+    return;
+  }
+
   if (interaction.customId == "ticketCreateSelect") {
     const user = interaction.user;
     const existingChannel = interaction.guild.channels.cache.find(
@@ -91,31 +96,46 @@ module.exports = async (interaction) => {
           },
         ],
       });
-      
       const embed = new EmbedBuilder()
         .setColor("DarkGreen")
         .setTitle(`Ticket from ${user.username} 🎫`)
         .setDescription(
-          `
-          >>> **User:**\n\n \`${user.username}\` \n\n
+          `>>> **User:**\n\n \`${user.username}\` \n\n
            **Subject:**\n\n \`${why} \` \n\n
            **Information:**\n\n \`${info}\``
         )
-        .setTimestamp();
+        .setTimestamp()
+        .setFooter({
+          text: "By Yggdrasil-Bot | made by _Momonga_",
+          iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+        });
+
+      const sEmbed = new EmbedBuilder()
+        .setColor("DarkGreen")
+        .setTitle(`Need help !`)
+        .setDescription(`Someone needs help in ${channel}`)
+        .setTimestamp()
+        .setFooter({
+          text: "By Yggdrasil-Bot | made by _Momonga_",
+          iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+        });
 
       const button = new ActionRowBuilder().addComponents(
         new ButtonBuilder()
           .setCustomId("closeTicket")
           .setLabel("Close Ticket")
           .setStyle(ButtonStyle.Danger),
-
         new ButtonBuilder()
           .setCustomId("ticketTranscript")
           .setLabel("Transcript")
           .setStyle(ButtonStyle.Primary)
       );
 
+      const sChannel = client.channels.cache.get('1194733917404672150');
+
       await channel.send({ embeds: [embed], components: [button] });
+      await sChannel.send({ embeds: [sEmbed], content: `@here` });
+
       const otEmbed = new EmbedBuilder()
         .setColor("DarkGreen")
         .setTitle(`Ticket Opened`)
@@ -174,7 +194,7 @@ module.exports = async (interaction) => {
       );
     setTimeout(async () => {
       await channel.delete().catch(() => {});
-      await member.send({ embeds: [nEmbed]}).catch(() => {});
+      await member.send({ embeds: [nEmbed] }).catch(() => {});
     }, 5000);
   } else if (interaction.customId == "ticketTranscript") {
     const file = await createTranscript(interaction.channel, {
@@ -188,10 +208,12 @@ module.exports = async (interaction) => {
       files: [file],
     });
     const tEmbed = new EmbedBuilder()
-    .setColor("Purple")
-    .setTitle(` 📜 [ Ticket Transcript ]`)
-    .setURL(`https://mahto.id/chat-exporter?url=${msg.attachments.first()?.url}`)
+      .setColor("Purple")
+      .setTitle(` 📜 [ Ticket Transcript ]`)
+      .setURL(
+        `https://mahto.id/chat-exporter?url=${msg.attachments.first()?.url}`
+      );
     await msg.delete().catch(() => {});
-    await interaction.reply({ embeds: [tEmbed]});
+    await interaction.reply({ embeds: [tEmbed] });
   }
 };

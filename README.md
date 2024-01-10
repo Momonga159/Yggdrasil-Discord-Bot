@@ -14,23 +14,19 @@
 - Command: `/changelog [description]`
  - Description: Create a changelog for updates.
 
-### 4. Announcement Command
-- Command: `/announcement [message]`
- - Description: Make an announcement in the server.
-
-### 5. Giveaway Command
+### 4. Giveaway Command
 - Command: `/giveaway [price] [description] [time]`
  - Description: Start a giveaway with a specified price and time.
 
-### 6. Accept Command
+### 5. Accept Command
 - Command: `/accept [suggestion_id] [message (optional)]`
  - Description: Accept a user suggestion based on its ID and send an optional message to the user.
 
-### 7. Reject Command
+### 6. Reject Command
 - Command: `/reject [suggestion_id] [reason (optional)]`
  - Description: Reject a user suggestion based on its ID and send an optional reason to the user.
 
-### 8. Event Command
+### 7. Event Command
 - Command: `/event [title] [description]`
  - Description: Create an event with specified details.
 
