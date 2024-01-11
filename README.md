@@ -26,10 +26,6 @@
 - Command: `/reject [suggestion_id] [reason (optional)]`
  - Description: Reject a user suggestion based on its ID and send an optional reason to the user.
 
-### 7. Event Command
-- Command: `/event [title] [description]`
- - Description: Create an event with specified details.
-
 ## User Commands
 
 ### 1. Recruitement Command
