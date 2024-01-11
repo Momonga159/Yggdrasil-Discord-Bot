@@ -40,22 +40,15 @@ module.exports = {
     const giveawayWinnerCount = interaction.options.getInteger("winners");
     const giveawayPrize = interaction.options.getString("prize");
 
-    
-    // Start the giveaway
     client.giveawaysManager.start(giveawayChannel, {
-      // The giveaway duration
       duration: ms(giveawayDuration),
-      // The giveaway prize
       prize: giveawayPrize,
-      // The giveaway winner count
       winnerCount: giveawayWinnerCount,
-      // Who hosts this giveaway
       hostedBy: config.hostedBy ? interaction.user : null,
-      // Messages
       messages,
     });
 
-    interaction.reply(`Giveaway started in ${giveawayChannel}!`);
+    interaction.reply({ contents: `Giveaway started in ${giveawayChannel}!`, ephemeral: true});
   },
   adminOnly: true,
 };

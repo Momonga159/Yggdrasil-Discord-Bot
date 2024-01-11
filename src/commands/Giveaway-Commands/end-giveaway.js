@@ -11,20 +11,17 @@ module.exports = {
         .setRequired(true)
     ),
 
-  run: async ({client, interaction}) => {
+  run: async ({ client, interaction }) => {
     const query = interaction.options.getString("giveaway");
 
     const giveaway =
-      // Search with giveaway prize
       client.giveawaysManager.giveaways.find(
         (g) => g.prize === query && g.guildId === interaction.guild.id
       ) ||
-      // Search with giveaway ID
       client.giveawaysManager.giveaways.find(
         (g) => g.messageId === query && g.guildId === interaction.guild.id
       );
 
-    // If no giveaway was found
     if (!giveaway) {
       return interaction.reply({
         content: "Unable to find a giveaway for `" + query + "`.",
@@ -39,13 +36,10 @@ module.exports = {
       });
     }
 
-    // Edit the giveaway
     client.giveawaysManager
       .end(giveaway.messageId)
-      // Success message
       .then(() => {
-        // Success message
-        interaction.reply("Giveaway ended!");
+        interaction.reply({ content: "Giveaway ended!", ephemeral: true});
       })
       .catch((e) => {
         interaction.reply({

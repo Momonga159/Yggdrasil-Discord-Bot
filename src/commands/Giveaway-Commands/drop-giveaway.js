@@ -26,25 +26,20 @@ module.exports = {
         .setRequired(true)
     ),
 
-  run: async ({client, interaction}) => {
+  run: async ({ client, interaction }) => {
     const giveawayChannel = interaction.options.getChannel("channel");
     const giveawayWinnerCount = interaction.options.getInteger("winners");
     const giveawayPrize = interaction.options.getString("prize");
 
     client.giveawaysManager.start(giveawayChannel, {
-      // The number of winners for this drop
       winnerCount: giveawayWinnerCount,
-      // The prize of the giveaway
       prize: giveawayPrize,
-      // Who hosts this giveaway
       hostedBy: config.hostedBy ? interaction.user : null,
-      // specify drop
       isDrop: true,
-      // Messages
       messages,
     });
 
-    interaction.reply(`Giveaway started in ${giveawayChannel}!`);
+    interaction.reply({ contents: `Giveaway started in ${giveawayChannel}!`, ephemeral: true});
   },
   adminOnly: true,
 };
