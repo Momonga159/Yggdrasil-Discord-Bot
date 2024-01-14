@@ -1,8 +1,8 @@
 const config = require('../config.json');
 
 module.exports = {
-    giveaway: (config.everyoneMention ? "@everyone\n\n" : "")+"🎉🎉 **GIVEAWAY** 🎉🎉",
-    giveawayEnded: (config.everyoneMention ? "@everyone\n\n" : "")+"🎉🎉 **GIVEAWAY ENDED** 🎉🎉",
+    giveaway: (config.everyoneMention ? "@everyone\n\n" : "")+"🎉 **GIVEAWAY** 🎉",
+    giveawayEnded: (config.everyoneMention ? "@everyone\n\n" : "")+"🎉 **GIVEAWAY ENDED** 🎉",
     title: '{this.prize}',
     inviteToParticipate: 'React with 🎉 to participate!',
     winMessage: 'Congratulations, {winners}! You won **{this.prize}**!',

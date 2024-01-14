@@ -3,11 +3,7 @@ const {
   TextInputBuilder,
   ActionRowBuilder,
   TextInputStyle,
-  ChannelType,
   EmbedBuilder,
-  ButtonBuilder,
-  ButtonStyle,
-  PermissionsBitField,
 } = require("discord.js");
 
 module.exports = async (interaction, client) => {
@@ -47,7 +43,7 @@ module.exports = async (interaction, client) => {
 
     const embed = new EmbedBuilder()
       .setTitle("New Changelog Posted!")
-      .setDescription(`**Title:**\n \`${why}\`\n\n**Changelog:**\n \`${info}\``) // use setDescription, not setdescription
+      .setDescription(`**Title:**\n \`${why}\`\n\n**Changelog:**\n \`${info}\``)
       .setColor("White")
       .setFooter({
         text: "By Yggdrasil-Bot | made by _Momonga_",
