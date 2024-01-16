@@ -5,6 +5,8 @@ const {
   StringSelectMenuBuilder,
   StringSelectMenuOptionBuilder,
   EmbedBuilder,
+  ButtonBuilder,
+  ButtonStyle,
 } = require("discord.js");
 
 module.exports = {
@@ -23,17 +25,26 @@ module.exports = {
     const channel = interaction.options.getChannel("channel");
     await interaction.deferReply();
 
-    const embed = new EmbedBuilder()
-      .setTitle("Class Selection")
-      .setDescription(
-        "Select a class from the dropdown menu.\n**Note:** The class is the same as In-Game.\n**Pro Tip:** If you want to change your class, select the one you have to remove it and then select the one you want to add.\n *if you have any problems, contact a staff member.*"
+    const mEmbed = new EmbedBuilder()
+      .setTitle("Class Selection | Class Remove")
+      .addFields(
+        {
+          name: "Add a class.",
+          value: "Select a class to add it to your roles.",
+          inline: true,
+        },
+        {
+          name: "Remove a class.",
+          value:
+            "Click the button to remove your class role to select a new one.",
+          inline: true,
+        }
       )
       .setColor("Navy")
       .setFooter({
         text: "By Yggdrasil-Bot | made by _Momonga_",
         iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
       });
-
     const selectMenu = new StringSelectMenuBuilder()
       .setCustomId("selectMenuId")
       .setPlaceholder("Select a class")
@@ -69,10 +80,16 @@ module.exports = {
           .setValue("warrior")
           .setEmoji("⚔️")
       );
+    const selectButton = new ButtonBuilder()
+      .setCustomId("selectButtonId")
+      .setLabel("Remove role")
+      .setStyle(ButtonStyle.Danger);
+
     const row = new ActionRowBuilder().addComponents(selectMenu);
+    const row2 = new ActionRowBuilder().addComponents(selectButton);
     await channel.send({
-      embeds: [embed],
-      components: [row],
+      embeds: [mEmbed],
+      components: [row, row2],
     });
   },
   adminOnly: true,
