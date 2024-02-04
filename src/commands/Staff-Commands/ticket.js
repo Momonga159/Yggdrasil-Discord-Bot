@@ -5,7 +5,7 @@ const {
   ActionRowBuilder,
   ChannelType,
   ButtonBuilder,
-  ButtonStyle
+  ButtonStyle,
 } = require("discord.js");
 
 const ticket = require("../../schemas/ticketSchema");
@@ -44,7 +44,9 @@ module.exports = {
         )
     )
     .addSubcommand((command) =>
-      command.setName("remove").setDescription("Disable the ticket system.")
+      command
+      .setName("remove")
+      .setDescription("Disable the ticket system.")
     )
     .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
 
@@ -75,11 +77,15 @@ module.exports = {
         const embed = new EmbedBuilder()
           .setColor("Green")
           .setTitle(`Create a ticket !`)
-          .setDescription(message + " 🎫 \n\n**Note:** Please be patient and respectful while we help you.")
+          .setDescription(
+            message +
+              " 🎫 \n\n**Note:** Please be patient and respectful while we help you."
+          )
           .setFooter({
             text: "By Yggdrasil-Bot | made by _Momonga_",
-            iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
-          })
+            iconURL:
+              "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+          });
 
         await interaction.reply({
           content: `I have sent your ticket message below.`,

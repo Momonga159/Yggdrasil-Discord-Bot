@@ -7,22 +7,20 @@
 # Announcement command
     Finish: [true]
 # Giveaway command
+    Finish: [true]
+# Suggestion command
     Finish: [false]
 # Accept command
     Finish: [false]
 # Reject command
     Finish: [false]
-# Event command
-    Finish: [true]
 # Link command
     Finish: [false]
 # Recruitement command
-    Finish: [false]
+    Finish: [true]
 # Unban request command
-    Finish: [false]
+    Finish: [true]
 # Ticket command
-    Finish: [false]
+    Finish: [true]
 # Help command
-    Finish: [false]
-# Suggestion command
     Finish: [false]

@@ -15,6 +15,10 @@ const client = new Client({
     IntentsBitField.Flags.MessageContent,
     IntentsBitField.Flags.GuildMessageReactions,
   ],
+  partials: [
+    'MESSAGE',
+    'REACTION'
+  ]
 });
 
 new CommandHandler({

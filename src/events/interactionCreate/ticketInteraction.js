@@ -15,7 +15,7 @@ const { createTranscript } = require("discord-html-transcripts");
 
 module.exports = async (interaction, client) => {
   if (!interaction) {
-    console.error('interaction is undefined');
+    console.error("interaction is undefined");
     return;
   }
 
@@ -131,7 +131,7 @@ module.exports = async (interaction, client) => {
           .setStyle(ButtonStyle.Primary)
       );
 
-      const sChannel = client.channels.cache.get('1194733917404672150');
+      const sChannel = client.channels.cache.get("1194733917404672150");
 
       await channel.send({ embeds: [embed], components: [button] });
       await sChannel.send({ embeds: [sEmbed], content: `@here` });
@@ -191,7 +191,11 @@ module.exports = async (interaction, client) => {
       .setTitle(`Ticket Closed`)
       .setDescription(
         `You are receiving this notification because your ticket in **${interaction.guild.name}** has been closed for: \n\n \`${reason}\``
-      );
+      )
+      .setFooter({
+        text: "By Yggdrasil-Bot | made by _Momonga_",
+        iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+      });
     setTimeout(async () => {
       await channel.delete().catch(() => {});
       await member.send({ embeds: [nEmbed] }).catch(() => {});
