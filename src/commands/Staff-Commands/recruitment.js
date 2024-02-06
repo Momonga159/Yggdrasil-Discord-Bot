@@ -30,7 +30,7 @@ module.exports = {
       .setDescription(
         `> Want to join our team? Click on the role you want to have, and we will send you all the information.`
       )
-      .setColor("Greeb")
+      .setColor("Green")
       .setFooter({
         text: "By Yggdrasil-Bot | made by _Momonga_",
         iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",

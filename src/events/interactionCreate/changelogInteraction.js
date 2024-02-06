@@ -6,7 +6,7 @@ const {
   EmbedBuilder,
 } = require("discord.js");
 
-module.exports = async (interaction, client) => {
+module.exports = async (interaction) => {
   if (!interaction) {
     console.error("interaction is undefined");
     return;
@@ -39,7 +39,10 @@ module.exports = async (interaction, client) => {
     const why = interaction.fields.getTextInputValue("titleChangelog");
     const info = interaction.fields.getTextInputValue("infoChangelog");
 
-    const channel = client.channels.cache.get("1194742904925732925");
+    const { changelog_channel } = require('../../json/helpChannel.json')
+    const channelID = changelog_channel
+
+    const channel = interaction.member.guild.channels.cache.get(channelID);
 
     const embed = new EmbedBuilder()
       .setTitle("New Changelog Posted!")

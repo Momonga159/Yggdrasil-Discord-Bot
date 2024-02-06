@@ -63,7 +63,7 @@ const {
           const text = options.getString("text");
           var message =
             options.getString("message") ||
-            ">>> Create a unban request to talk with the server staff! Once you clic below, use the input to describe why you are creating a unban request.";
+            ">>> Create an unban request to talk with the server staff! Once you click below, use the input to describe why you are creating an unban request."
   
           const select = new ActionRowBuilder().addComponents(
             new ButtonBuilder()

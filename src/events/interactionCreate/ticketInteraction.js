@@ -131,7 +131,9 @@ module.exports = async (interaction, client) => {
           .setStyle(ButtonStyle.Primary)
       );
 
-      const sChannel = client.channels.cache.get("1194733917404672150");
+      const { ticket_channel } = require("../../json/helpChannel.json");
+      const channelID = ticket_channel;
+      const sChannel = member.guild.channels.cache.get(channelID);
 
       await channel.send({ embeds: [embed], components: [button] });
       await sChannel.send({ embeds: [sEmbed], content: `@here` });

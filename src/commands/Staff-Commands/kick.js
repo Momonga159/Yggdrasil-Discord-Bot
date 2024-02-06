@@ -1,5 +1,8 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const { EmbedBuilder, PermissionsBitField } = require("discord.js");
+const {
+  SlashCommandBuilder,
+  EmbedBuilder,
+  PermissionsBitField,
+} = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -17,7 +20,7 @@ module.exports = {
         .setDescription("The reason for the kick.")
         .setRequired(true)
     ),
-  run: async ({ interaction, client }) => {
+  run: async ({ interaction }) => {
     const users = interaction.options.getUser("user");
     const ID = users.id;
     const kickUser = interaction.guild.members.cache.get(ID);
@@ -40,17 +43,17 @@ module.exports = {
     //dm message after kick
     const kickEmbed = new EmbedBuilder()
       .setColor("Orange")
-      .setTitle(
-        `You have been kicked from **${interaction.guild.name}**`
+      .setTitle(`You have been kicked from **${interaction.guild.name}**`)
+      .setDescription(
+        "If you believe this kick is unjust, you can contact the server moderators."
       )
-      .setDescription("If you believe this kick is unjust, you can contact the server moderators.")
       .setThumbnail(
         "https://cdn.discordapp.com/attachments/521304427811045387/1171105793240735805/yggdrasil-bg.png?ex=65ae86c3&is=659c11c3&hm=bd3a486f4c3193c3c98ca63bdf7cd4a6d0d92433d9621129ded8481e1752853b&"
       )
       .addFields(
         {
           name: "Reason:",
-          value: `\`${reason}\``
+          value: `\`${reason}\``,
         },
         {
           name: "Kicking Staff User",

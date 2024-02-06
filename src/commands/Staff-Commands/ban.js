@@ -1,5 +1,8 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const { EmbedBuilder, PermissionsBitField } = require("discord.js");
+const {
+  SlashCommandBuilder,
+  EmbedBuilder,
+  PermissionsBitField,
+} = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -43,14 +46,16 @@ module.exports = {
       .setTitle(
         `You have been permanently banned from **${interaction.guild.name}**`
       )
-      .setDescription("If you believe this ban is unjust, you can contact the server moderators.")
+      .setDescription(
+        "If you believe this ban is unjust, you can contact the server moderators."
+      )
       .setThumbnail(
         "https://cdn.discordapp.com/attachments/521304427811045387/1171105793240735805/yggdrasil-bg.png?ex=65ae86c3&is=659c11c3&hm=bd3a486f4c3193c3c98ca63bdf7cd4a6d0d92433d9621129ded8481e1752853b&"
       )
       .addFields(
         {
           name: "Reason:",
-          value: `\`${reason}\``
+          value: `\`${reason}\``,
         },
         {
           name: "Banning Staff User",

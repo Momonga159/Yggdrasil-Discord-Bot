@@ -10,7 +10,7 @@ const {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("changelog")
-    .setDescription("Setup the changelog system.")
+    .setDescription("Setup the changelog system.159")
     .addChannelOption((option) =>
       option
         .setName("channel")

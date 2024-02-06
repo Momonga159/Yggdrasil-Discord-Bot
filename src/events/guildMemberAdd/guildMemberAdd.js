@@ -1,11 +1,15 @@
 const { EmbedBuilder } = require("discord.js");
 
-module.exports = async (member, client) => {
+module.exports = async (member) => {
   if (!member) return console.log("Member not found");
   if (!member.guild) return console.log("Guild not found");
 
-  const role = member.guild.roles.cache.get("1191838365117599826");
-  const channel = client.channels.cache.get("1191796681738567810");
+  const { welcome_channel } = require('../../json/helpChannel.json')
+  const { not_verified } = require('../../json/roles.json')
+  const role = not_verified
+  const channelID = welcome_channel
+
+  const channel = member.guild.channels.cache.get(channelID)
 
   if (!role) return console.log("Role not found");
   if (!channel) return console.log("Channel not found");

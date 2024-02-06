@@ -128,7 +128,8 @@ module.exports = async (interaction, client) => {
           .setStyle(ButtonStyle.Danger)
       );
 
-      const sChannel = client.channels.cache.get("1203322349777199164");
+      const { unban_channel } = require('../../json/helpChannel.json')
+      const sChannel = unban_channel
 
       await channel.send({ embeds: [embed], components: [button] });
       await sChannel.send({ embeds: [sEmbed], content: `@here` });

@@ -1,11 +1,14 @@
 const { EmbedBuilder } = require("discord.js");
+
 module.exports = async (interaction) => {
   const guild = interaction.guild;
-  const role = guild.roles.cache.get("986666056997281842");
-  const admin = role.members;
+
+  const { admin_role } = require('../../json/roles.json');
+  const role = admin_role;
+  const admin = role.members || [];
 
   const edEmbed = new EmbedBuilder()
-    .setTitle("Recuitement information")
+    .setTitle("Recruitment information")
     .setDescription(
       "You can answer questions to one of the following administrators. You may be required to undergo a vocal interview, and additional information may be requested."
     )
@@ -14,14 +17,21 @@ module.exports = async (interaction) => {
       text: "By Yggdrasil-Bot | made by _Momonga_",
       iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
     });
+
   const mdEmbed = new EmbedBuilder()
     .setTitle("Administrator list:")
-    .setDescription(admin.map((member) => `<@${member.user.id}> `).join("\n"))
     .setColor("DarkGreen")
     .setFooter({
       text: "By Yggdrasil-Bot | made by _Momonga_",
       iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
     });
+
+  if (admin.length > 0) {
+    mdEmbed.setDescription(admin.map((member) => `<@${member.user.id}> `).join("\n"));
+  } else {
+    mdEmbed.setDescription("No administrators found.");
+  }
+
   if (interaction.customId == "moderatorID") {
     const mEmbed = new EmbedBuilder()
       .setTitle("Moderator Question")
@@ -37,7 +47,12 @@ module.exports = async (interaction) => {
 
     > In the event of encountering a potentially controversial issue, how would you communicate decisions made by the moderation team to the community?
     `
-      );
+      )
+      .setColor("DarkGreen")
+      .setFooter({
+        text: "By Yggdrasil-Bot | made by _Momonga_",
+        iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+      });
 
     interaction.reply({ embeds: [mEmbed, edEmbed, mdEmbed], ephemeral: true });
   } else if (interaction.customId == "developerID") {
@@ -55,7 +70,13 @@ module.exports = async (interaction) => {
 
   > In what ways do you prioritize and manage your time when working on multiple coding tasks or projects simultaneously?
   `
-      );
+      )
+      .setColor("DarkGreen")
+      .setFooter({
+        text: "By Yggdrasil-Bot | made by _Momonga_",
+        iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+      });
+
     interaction.reply({ embeds: [dEmbed, edEmbed, mdEmbed], ephemeral: true });
   } else if (interaction.customId == "builderID") {
     const bEmbed = new EmbedBuilder()
@@ -72,7 +93,13 @@ module.exports = async (interaction) => {
 
   > How would you handle constructive criticism from players regarding the design of certain in-game elements, and how might you incorporate their feedback into future projects?
   `
-      );
+      )
+      .setColor("DarkGreen")
+      .setFooter({
+        text: "By Yggdrasil-Bot | made by _Momonga_",
+        iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+      });
+
     interaction.reply({ embeds: [bEmbed, edEmbed, mdEmbed], ephemeral: true });
   } else if (interaction.customId == "helperID") {
     const hEmbed = new EmbedBuilder()
@@ -89,7 +116,13 @@ module.exports = async (interaction) => {
 
   > How do you handle situations where you don't have an immediate answer to a player's question? How would you go about researching and finding the information needed to assist them?
   `
-      );
+      )
+      .setColor("DarkGreen")
+      .setFooter({
+        text: "By Yggdrasil-Bot | made by _Momonga_",
+        iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+      });
+
     interaction.reply({ embeds: [hEmbed, edEmbed, mdEmbed], ephemeral: true });
   }
 };

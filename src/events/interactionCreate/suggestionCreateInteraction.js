@@ -35,8 +35,8 @@ module.exports = async (interaction) => {
 
   if (interaction.customId == "suggestionModal") {
     const suggestmsg = interaction.fields.getTextInputValue("infoSugg");
-    // const schannel = Data.ChannelID;
-    const suggestionchannel = interaction.guild.channels.cache.get("1195148507846283304")
+    const { suggestion_channel } = require('../../json/helpChannel.json')
+    const suggestionchannel = suggestion_channel
 
     const num1 = Math.floor(Math.random() * 256);
     const num2 = Math.floor(Math.random() * 256);
@@ -112,7 +112,6 @@ module.exports = async (interaction) => {
       iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
     });
     await interaction.reply({
-      // content: `Your suggestion has been submitted in ${suggestionchannel}!`,
       embeds: [rEmbed],
       ephemeral: true,
     });

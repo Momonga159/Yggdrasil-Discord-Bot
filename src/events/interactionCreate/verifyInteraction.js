@@ -1,14 +1,26 @@
+const { EmbedBuilder } = require("discord.js");
+
 module.exports = async (interaction) => {
-  const verified_role = interaction.guild.roles.cache.get("1191805119541543053");
-  const not_verified = interaction.guild.roles.cache.get("1191838365117599826");
+  const { verified_role, not_verified } = require("../../json/roles.json");
 
-    if (interaction.customId == "verifyBtn") {
-        const user = interaction.user;
-        const member = interaction.guild.members.cache.get(user.id);
-    
-        await member.roles.add(verified_role);
-        await member.roles.remove(not_verified);
+  const verifiedrole = verified_role;
+  const notverified = not_verified;
 
-        await interaction.reply({ content: "You have been verified!", ephemeral: true });
-    }
+  if (interaction.customId == "verifyBtn") {
+    const user = interaction.user;
+    const member = interaction.guild.members.cache.get(user.id);
+
+    await member.roles.add(verifiedrole);
+    await member.roles.remove(notverified);
+
+    const embed = new EmbedBuilder()
+      .setTitle("You have been verified !")
+      .setColor("Green")
+      .setFooter({
+        text: "By Yggdrasil-Bot | made by _Momonga_",
+        iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+      });
+
+    await user.send({ embeds: [embed] });
+  }
 };

@@ -35,21 +35,14 @@ module.exports = {
       command
         .setName("submit")
         .setDescription("Submit a suggestion.")
-        /*.addChannelOption((option) =>
-          option
-            .setName("suggestion-channel")
-            .setDescription("Where the suggestion channel will be.")
-            .addChannelTypes(ChannelType.GuildText)
-            .setRequired(true)
-        )*/
     ),
   run: async ({ interaction, client }) => {
     const { options } = interaction;
     const sub = options.getSubcommand();
     const Schannel = options.getChannel("channel");
     const Data = await suggestion.findOne({ GuildID: interaction.guild.id });
-    //const suggestmsg = options.getString("suggestion");
-    const seChannel = client.channels.cache.get("1195131150033752245");
+    const { suggestion_channel } = require('../../json//helpChannel.json')
+    const seChannel = suggestion_channel
 
     switch (sub) {
       case "setup":
@@ -83,7 +76,7 @@ module.exports = {
             })
             .setTitle("Success!")
             .setDescription(
-              `✅・The suggestion system has been successfully **setup** in ${Schannel}!`
+              `✅ The suggestion system has been successfully setup in ${Schannel}!`
             );
 
           await interaction.reply({ embeds: [embed], ephemeral: true });
@@ -103,7 +96,7 @@ module.exports = {
 
         if (!Data) {
           return await interaction.reply({
-            content: `You don't a suggestion system **setup**!`,
+            content: `You don't have a suggestion system setup!`,
             ephemeral: true,
           });
         } else {

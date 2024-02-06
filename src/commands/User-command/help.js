@@ -11,14 +11,15 @@ module.exports = {
     const recruitementID = recruitement_channel
     const ticketID = ticket_channel
     const unbanID = unban_channel
+    const suggestionID = suggestion_channel
 
     const embed = new EmbedBuilder()
       .setTitle("Help")
-      .setDescription(`> Here are all the commands you may need help with.`)
       .addFields(
-        { name: "Recruitement", value: `Want to join the team ? Go here: <#${recruitementID}>`, inline: true},
-        { name: "Ticket", value: `Need help with a staff member ? Go here: <#${ticketID}>`, inline: true},
-        { name: "Unban", value: `Do you need to be unbanned from In-Game ? Go here: <#${unbanID}>`, inline: true}
+        { name: "● Recruitement", value: `> Want to join the team ? <#${recruitementID}>`, inline: false},
+        { name: "● Ticket", value: `> Need help with a staff member ? <#${ticketID}>`, inline: false},
+        { name: "● Unban", value: `> Do you need to be unbanned from In-Game ? <#${unbanID}>`, inline: false},
+        { name: "● Suggestion", value: `> Do you want to do a suggestion ? <#${suggestionID}>`, inline: false}
       )
       .setColor("DarkGreen")
       .setFooter({

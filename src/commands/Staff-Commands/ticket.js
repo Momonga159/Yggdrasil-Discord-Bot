@@ -65,7 +65,7 @@ module.exports = {
         const text = options.getString("text");
         var message =
           options.getString("message") ||
-          ">>> Create a ticket to talk with the server staff! Once you clic below, use the input to describe why you are creating a ticket.";
+          ">>> Create a ticket to talk with the server staff! Once you click below, use the input to describe why you are creating a ticket.";
 
         const select = new ActionRowBuilder().addComponents(
           new ButtonBuilder()
@@ -76,7 +76,7 @@ module.exports = {
         );
         const embed = new EmbedBuilder()
           .setColor("Green")
-          .setTitle(`Create a ticket !`)
+          .setTitle(`Create a ticket!`)
           .setDescription(
             message +
               " 🎫 \n\n**Note:** Please be patient and respectful while we help you."
@@ -119,13 +119,13 @@ module.exports = {
             ephemeral: true,
           });
         else {
-          const caterogy = options.getChannel("category");
+          const category = options.getChannel("category");
           await ticket.create({
             Guild: interaction.guild.id,
-            Category: caterogy.id,
+            Category: category.id,
           });
           await interaction.reply({
-            content: `I have set the category tp **${caterogy}**, Use /ticket send to send a ticket create message`,
+            content: `I have set the category to **${category}**, Use /ticket send to send a ticket create message`,
             ephemeral: true,
           });
         }
