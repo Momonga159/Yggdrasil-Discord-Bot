@@ -43,6 +43,7 @@ module.exports = {
     );
 
     await channel.send({ embeds: [embed], components: [row] });
+    await interaction.deleteReply()
   },
   adminOnly: true,
 };

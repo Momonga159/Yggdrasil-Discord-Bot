@@ -1,86 +1,98 @@
-const {
-    SlashCommandBuilder,
-    EmbedBuilder,
-  } = require("discord.js");
-  
-  module.exports = {
-    data: new SlashCommandBuilder()
-      .setName("kick")
-      .setDescription("kicks a user from the server.")
-      .addUserOption((option) =>
-        option
-          .setName("user")
-          .setDescription("The user you want to kick.")
-          .setRequired(true)
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { EmbedBuilder, PermissionsBitField } = require("discord.js");
+
+module.exports = {
+  data: new SlashCommandBuilder()
+    .setName("kick")
+    .setDescription("Kicks a user from the server.")
+    .addUserOption((option) =>
+      option
+        .setName("user")
+        .setDescription("The user you want to kick.")
+        .setRequired(true)
+    )
+    .addStringOption((option) =>
+      option
+        .setName("reason")
+        .setDescription("The reason for the kick.")
+        .setRequired(true)
+    ),
+  run: async ({ interaction, client }) => {
+    const users = interaction.options.getUser("user");
+    const ID = users.id;
+    const kickUser = interaction.guild.members.cache.get(ID);
+
+    //making permissions needed
+    if (
+      !interaction.member.permissions.has(PermissionsBitField.Flags.KickMembers)
+    )
+      return await interaction.reply({
+        content: `Lack of permissions.`,
+        ephemeral: true,
+      });
+    if (interaction.member.id === ID)
+      return await interaction.reply({ content: `You cannot kick yourself.` });
+
+    //no reason message
+    let reason = interaction.options.getString("reason");
+    if (!reason) reason = "No reason was given by the admin who kicked you";
+
+    //dm message after kick
+    const kickEmbed = new EmbedBuilder()
+      .setColor("Orange")
+      .setTitle(
+        `You have been kicked from **${interaction.guild.name}**`
       )
-      .addStringOption((option) =>
-        option
-          .setName("reason")
-          .setDescription("The reason for the kick.")
-          .setRequired(true)
-      ),
-  
-    run: async ({ client, interaction }) => {
-      const targetUserId = interaction.options.get("user").value;
-      const reason =
-        interaction.options.get("reason")?.value || "No reason provided";
-  
-      await interaction.deferReply();
-  
-      const targetUser = await interaction.guild.members.fetch(targetUserId);
-  
-      if (!targetUser) {
-        await interaction.editReply("That user doesn't exist in this server.");
-        return;
-      }
-  
-      if (targetUser.id === interaction.guild.ownerId) {
-        await interaction.editReply(
-          "You can't kick that user because they're the server owner."
-        );
-        return;
-      }
-  
-      const targetUserRolePosition = targetUser.roles.highest.position;
-      const requestUserRolePosition = interaction.member.roles.highest.position;
-      const botRolePosition = interaction.guild.members.me.roles.highest.position;
-  
-      if (targetUserRolePosition >= requestUserRolePosition) {
-        await interaction.editReply(
-          "You can't kick that user because they have the same/higher role than you."
-        );
-        return;
-      }
-  
-      if (targetUserRolePosition >= botRolePosition) {
-        await interaction.editReply(
-          "I can't kick that user because they have the same/higher role than me."
-        );
-        return;
-      }
-  
-      try {
-          await targetUser.kick({ reason });
-  
-        const channel = client.channels.cache.get("1187156449978228807"); // ID of the mod-log channel
-        const kEmbed = new EmbedBuilder()
-          .setColor("Red")
-          .setDescription("__**Someone has been kick.**__")
-          .setTimestamp()
-          .addFields(
-            { name: "User:", value: `${targetUser}`, inline: true },
-            { name: "Reason:", value: `${reason}`, inline: true }
-          )
-          .setFooter({
-            text: "By Yggdrasil-Bot | made by _Momonga_",
-            iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
-          });
-        channel.send({ embeds: [kEmbed] });
-      } catch (error) {
-          console.log(`There was an error while kicking a user: ${error}`);
-      }
-      interaction.deleteReply();
-    },
-    adminOnly: true,
-  };
-  
+      .setDescription("If you believe this kick is unjust, you can contact the server moderators.")
+      .setThumbnail(
+        "https://cdn.discordapp.com/attachments/521304427811045387/1171105793240735805/yggdrasil-bg.png?ex=65ae86c3&is=659c11c3&hm=bd3a486f4c3193c3c98ca63bdf7cd4a6d0d92433d9621129ded8481e1752853b&"
+      )
+      .addFields(
+        {
+          name: "Reason:",
+          value: `\`${reason}\``
+        },
+        {
+          name: "Kicking Staff User",
+          value: `Kicked by: <@${interaction.user.id}>`,
+          inline: false,
+        },
+        {
+          name: "⏲️ Time:",
+          value: `${new Date().toLocaleString()}`,
+          inline: false,
+        }
+      )
+      .setFooter({
+        text: "By Yggdrasil-Bot | made by _Momonga_",
+        iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+      });
+
+    //kick confirmation
+    const kickconfEmbed = new EmbedBuilder()
+      .setColor("Orange")
+      .setTitle(`User: ( ${kickUser} ) has been kicked`)
+      .setImage(
+        "https://cdn.discordapp.com/attachments/521304427811045387/1171105793240735805/yggdrasil-bg.png?ex=65ae86c3&is=659c11c3&hm=bd3a486f4c3193c3c98ca63bdf7cd4a6d0d92433d9621129ded8481e1752853b&"
+      )
+      .setFooter({
+        text: "By Yggdrasil-Bot | made by _Momonga_",
+        iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+      });
+
+    await kickUser.send({ embeds: [kickEmbed] }).catch((err) => {
+      return;
+    });
+
+    await kickUser.kick(reason).catch((err) => {
+      return interaction.reply({
+        content:
+          "I cannot kick this user, as they have higher permissions than me",
+      });
+    });
+
+    await interaction.reply({ embeds: [kickconfEmbed] }).catch((err) => {
+      return;
+    });
+  },
+};

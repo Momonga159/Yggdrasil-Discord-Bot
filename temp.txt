@@ -1,0 +1,103 @@
+const {
+  SlashCommandBuilder,
+  EmbedBuilder,
+  IntegrationApplication,
+  Embed,
+} = require("discord.js");
+
+module.exports = {
+  data: new SlashCommandBuilder()
+    .setName("ban")
+    .setDescription("Bans a user from the server")
+    .addUserOption((option) =>
+      option
+        .setName("user")
+        .setDescription("The user you want to ban.")
+        .setRequired(true)
+    )
+    .addStringOption((option) =>
+      option
+        .setName("reason")
+        .setDescription("The reason for the ban.")
+        .setRequired(true)
+    ),
+
+  run: async ({ interaction, client }) => {
+    const users = interaction.options.getUser("user");
+    const ID = users.id;
+    const banUser = client.users.cache.get(ID);
+    const user = interaction.user.username;
+    const userID = interaction.user.id;
+
+    if (interaction.member.id === ID) {
+      const byEmbed = new EmbedBuilder()
+        .setTitle("You cannot ban yoursel.")
+        .setColor("DarkRed")
+        .setFooter({
+          text: "By Yggdrasil-Bot | made by _Momonga_",
+          iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+        });
+      await interaction.reply({ embeds: [byEmbed], ephemeral: true });
+    }
+
+    const reason = interaction.options.getString("reason");
+    const nrEmbed = new EmbedBuilder()
+      .setTitle("No reason was given by the admin who banned you.")
+      .setColor("Orange")
+      .setFooter({
+        text: "By Yggdrasil-Bot | made by _Momonga_",
+        iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+      });
+    if (!reason) reason = nrEmbed;
+
+    const bEmbed = new EmbedBuilder()
+      .setColor("Red")
+      .setTitle("Ban")
+      .setDescription(
+        `
+        You have been permanently banned from ${interaction.guild.name} \n
+        Reason: \`${reason}\`
+      `
+      )
+      .addFields(
+        {
+          name: "Banning staff user",
+          value: `Banned by: <@${interaction.user.id}>`,
+          inline: false,
+        },
+        {
+          name: "Time:",
+          value: `${new Date().toLocaleString()}`,
+          inline: false,
+        }
+      )
+      .setFooter({
+        text: "By Yggdrasil-Bot | made by _Momonga_",
+        iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+      });
+
+    const bcEmbed = new EmbedBuilder()
+      .setColor("Red")
+      .setTitle(`User: [ ${banUser} ] has been banned.`)
+      .setFooter({
+        text: "By Yggdrasil-Bot | made by _Momonga_",
+        iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+      });
+
+    await interaction.guild.bans.create(banUser.id, { reason }).catch((err) => {
+      return interaction.reply({
+        content:
+          "I cannot ban this user, as they have higher permissions than me",
+      });
+    });
+
+    await banUser.send({ embeds: [bEmbed] }).catch((err) => {
+      return;
+    });
+
+    await interaction.reply({ embeds: [bcEmbed] }).catch((err) => {
+      return;
+    });
+  },
+  adminOnly: true,
+};

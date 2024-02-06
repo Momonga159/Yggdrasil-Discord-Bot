@@ -1,7 +1,5 @@
-const {
-  SlashCommandBuilder,
-  EmbedBuilder,
-} = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { EmbedBuilder, PermissionsBitField } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -19,67 +17,82 @@ module.exports = {
         .setDescription("The reason for the ban.")
         .setRequired(true)
     ),
+  run: async ({ interaction, client }) => {
+    const users = interaction.options.getUser("user");
+    const ID = users.id;
+    const banUser = client.users.cache.get(ID);
 
-  run: async ({ client, interaction }) => {
-    const targetUserId = interaction.options.get("user").value;
-    const reason =
-      interaction.options.get("reason")?.value || "No reason provided";
+    //making permissions needed
+    if (
+      !interaction.member.permissions.has(PermissionsBitField.Flags.BanMembers)
+    )
+      return await interaction.reply({
+        content: `Lack of permissions.`,
+        ephemeral: true,
+      });
+    if (interaction.member.id === ID)
+      return await interaction.reply({ content: `You cannot ban yourself.` });
 
-    await interaction.deferReply();
+    //no reason message
+    let reason = interaction.options.getString("reason");
+    if (!reason) reason = "No reason was given by the admin who banned you";
 
-    const targetUser = await interaction.guild.members.fetch(targetUserId);
+    //dm message after ban
+    const banEmbed = new EmbedBuilder()
+      .setColor("Red")
+      .setTitle(
+        `You have been permanently banned from **${interaction.guild.name}**`
+      )
+      .setDescription("If you believe this ban is unjust, you can contact the server moderators.")
+      .setThumbnail(
+        "https://cdn.discordapp.com/attachments/521304427811045387/1171105793240735805/yggdrasil-bg.png?ex=65ae86c3&is=659c11c3&hm=bd3a486f4c3193c3c98ca63bdf7cd4a6d0d92433d9621129ded8481e1752853b&"
+      )
+      .addFields(
+        {
+          name: "Reason:",
+          value: `\`${reason}\``
+        },
+        {
+          name: "Banning Staff User",
+          value: `Banned by: <@${interaction.user.id}>`,
+          inline: false,
+        },
+        {
+          name: "⏲️ Time:",
+          value: `${new Date().toLocaleString()}`,
+          inline: false,
+        }
+      )
+      .setFooter({
+        text: "By Yggdrasil-Bot | made by _Momonga_",
+        iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+      });
 
-    if (!targetUser) {
-      await interaction.editReply("That user doesn't exist in this server.");
+    //ban conformation
+    const banconfEmbed = new EmbedBuilder()
+      .setColor("Red")
+      .setTitle(`User: ( ${banUser} ) has been banned`)
+      .setImage(
+        "https://cdn.discordapp.com/attachments/521304427811045387/1171105793240735805/yggdrasil-bg.png?ex=65ae86c3&is=659c11c3&hm=bd3a486f4c3193c3c98ca63bdf7cd4a6d0d92433d9621129ded8481e1752853b&"
+      )
+      .setFooter({
+        text: "By Yggdrasil-Bot | made by _Momonga_",
+        iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+      });
+
+    await banUser.send({ embeds: [banEmbed] }).catch((err) => {
       return;
-    }
+    });
 
-    if (targetUser.id === interaction.guild.ownerId) {
-      await interaction.editReply(
-        "You can't ban that user because they're the server owner."
-      );
+    await interaction.guild.bans.create(banUser.id, { reason }).catch((err) => {
+      return interaction.reply({
+        content:
+          "I cannot ban this user, as they have higher permissions than me",
+      });
+    });
+
+    await interaction.reply({ embeds: [banconfEmbed] }).catch((err) => {
       return;
-    }
-
-    const targetUserRolePosition = targetUser.roles.highest.position;
-    const requestUserRolePosition = interaction.member.roles.highest.position;
-    const botRolePosition = interaction.guild.members.me.roles.highest.position;
-
-    if (targetUserRolePosition >= requestUserRolePosition) {
-      await interaction.editReply(
-        "You can't ban that user because they have the same/higher role than you."
-      );
-      return;
-    }
-
-    if (targetUserRolePosition >= botRolePosition) {
-      await interaction.editReply(
-        "I can't ban that user because they have the same/higher role than me."
-      );
-      return;
-    }
-
-    try {
-        await targetUser.ban({ reason });
-
-      const channel = client.channels.cache.get("1187156449978228807"); // ID of the mod-log channel
-      const kEmbed = new EmbedBuilder()
-        .setColor("Red")
-        .setDescription("__**Someone has been ban.**__")
-        .setTimestamp()
-        .addFields(
-          { name: "User:", value: `${targetUser}`, inline: true },
-          { name: "Reason:", value: `${reason}`, inline: true }
-        )
-        .setFooter({
-          text: "By Yggdrasil-Bot | made by _Momonga_",
-          iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
-        });
-      channel.send({ embeds: [kEmbed] });
-    } catch (error) {
-        console.log(`There was an error while banning a user: ${error}`);
-    }
-    interaction.deleteReply();
+    });
   },
-  adminOnly: true,
 };

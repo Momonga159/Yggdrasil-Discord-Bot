@@ -17,7 +17,9 @@ const client = new Client({
   ],
   partials: [
     'MESSAGE',
-    'REACTION'
+    'CHANNEL',
+    'REACTION',
+    'USER'
   ]
 });
 

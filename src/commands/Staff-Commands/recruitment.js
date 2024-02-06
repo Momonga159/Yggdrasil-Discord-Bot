@@ -9,13 +9,13 @@ const {
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("recruitement")
-    .setDescription("Setup the recruitement system.")
+    .setName("recruitment")
+    .setDescription("Setup the recruitment system.")
     .addChannelOption((option) =>
       option
         .setName("channel")
         .setDescription(
-          "The channel where the recruitement setup will be posted."
+          "The channel where the recruitment setup will be posted."
         )
         .setRequired(true)
         .addChannelTypes(ChannelType.GuildText)
@@ -26,11 +26,11 @@ module.exports = {
     await interaction.deferReply();
 
     const eEmbed = new EmbedBuilder()
-      .setTitle("Recruitement")
+      .setTitle("Recruitment")
       .setDescription(
-        `> Want to join our team ? click on the role you want to have and we will send you all the informations.`
+        `> Want to join our team? Click on the role you want to have, and we will send you all the information.`
       )
-      .setColor("Green")
+      .setColor("Greeb")
       .setFooter({
         text: "By Yggdrasil-Bot | made by _Momonga_",
         iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
