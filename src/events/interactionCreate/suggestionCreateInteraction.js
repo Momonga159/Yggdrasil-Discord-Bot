@@ -36,7 +36,9 @@ module.exports = async (interaction) => {
   if (interaction.customId == "suggestionModal") {
     const suggestmsg = interaction.fields.getTextInputValue("infoSugg");
     const { suggestion_channel } = require('../../json/helpChannel.json')
-    const suggestionchannel = suggestion_channel
+    const channelID = suggestion_channel
+    const suggestionchannel = interaction.member.guild.channels.cache.get(channelID);
+    
 
     const num1 = Math.floor(Math.random() * 256);
     const num2 = Math.floor(Math.random() * 256);

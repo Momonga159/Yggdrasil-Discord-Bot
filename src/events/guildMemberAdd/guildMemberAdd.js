@@ -5,8 +5,8 @@ module.exports = async (member) => {
   if (!member.guild) return console.log("Guild not found");
 
   const { welcome_channel } = require('../../json/helpChannel.json')
-  const { not_verified } = require('../../json/roles.json')
-  const role = not_verified
+  const { verified_role } = require('../../json/roles.json')
+  const role = verified_role
   const channelID = welcome_channel
 
   const channel = member.guild.channels.cache.get(channelID)

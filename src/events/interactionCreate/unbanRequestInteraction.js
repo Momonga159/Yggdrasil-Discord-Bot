@@ -77,6 +77,9 @@ module.exports = async (interaction, client) => {
         data.Category
       );
 
+      const { moderator_role } = require('../../json/roles.json')
+      const moderator = moderator_role
+
       const channel = await interaction.guild.channels.create({
         name: `unban-${user.id}`,
         type: ChannelType.GuildText,
@@ -95,6 +98,14 @@ module.exports = async (interaction, client) => {
               PermissionsBitField.Flags.ReadMessageHistory,
             ],
           },
+          {
+            id: moderator,
+            allow: [
+              PermissionsBitField.Flags.ViewChannel,
+              PermissionsBitField.Flags.SendMessages,
+              PermissionsBitField.Flags.ReadMessageHistory,
+            ],
+          }
         ],
       });
       const embed = new EmbedBuilder()
@@ -129,7 +140,8 @@ module.exports = async (interaction, client) => {
       );
 
       const { unban_channel } = require('../../json/helpChannel.json')
-      const sChannel = unban_channel
+      const channelID = unban_channel
+      const sChannel = interaction.member.guild.channels.cache.get(channelID);
 
       await channel.send({ embeds: [embed], components: [button] });
       await sChannel.send({ embeds: [sEmbed], content: `@here` });
@@ -151,8 +163,10 @@ module.exports = async (interaction, client) => {
   } else if (interaction.customId == "closeUnban") {
     const admin = interaction.guild.members.cache.get(interaction.user.id);
     const { admin_role } = require('../../json/roles.json')
+    const { moderator_role } = require('../../json/roles.json')
     const adminRoleId = admin_role
-    if (admin.roles.cache.has(adminRoleId)) {
+    const modo = moderator_role
+    if (admin.roles.cache.has(adminRoleId) || (admin.roles.cache.has(modo))) {
       var channel = interaction.channel;
       var name = channel.name;
       name = name.replace("unban-", "");

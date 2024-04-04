@@ -42,7 +42,8 @@ module.exports = {
     const Schannel = options.getChannel("channel");
     const Data = await suggestion.findOne({ GuildID: interaction.guild.id });
     const { suggestion_channel } = require('../../json//helpChannel.json')
-    const seChannel = suggestion_channel
+    const channelID = suggestion_channel
+    const seChannel = interaction.member.guild.channels.cache.get(channelID);
 
     switch (sub) {
       case "setup":

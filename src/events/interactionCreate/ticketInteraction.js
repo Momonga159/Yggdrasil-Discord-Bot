@@ -75,6 +75,9 @@ module.exports = async (interaction, client) => {
       const category = await interaction.guild.channels.cache.get(
         data.Category
       );
+      const { moderator_role, helper_role } = require("../../json/roles.json");
+      const moderator = moderator_role;
+      const helper = helper_role;
 
       const channel = await interaction.guild.channels.create({
         name: `ticket-${user.id}`,
@@ -88,6 +91,22 @@ module.exports = async (interaction, client) => {
           },
           {
             id: interaction.user.id,
+            allow: [
+              PermissionsBitField.Flags.ViewChannel,
+              PermissionsBitField.Flags.SendMessages,
+              PermissionsBitField.Flags.ReadMessageHistory,
+            ],
+          },
+          {
+            id: moderator,
+            allow: [
+              PermissionsBitField.Flags.ViewChannel,
+              PermissionsBitField.Flags.SendMessages,
+              PermissionsBitField.Flags.ReadMessageHistory,
+            ],
+          },
+          {
+            id: helper,
             allow: [
               PermissionsBitField.Flags.ViewChannel,
               PermissionsBitField.Flags.SendMessages,
@@ -132,8 +151,9 @@ module.exports = async (interaction, client) => {
       );
 
       const { ticket_channel } = require("../../json/helpChannel.json");
+      const guild = interaction.guild;
       const channelID = ticket_channel;
-      const sChannel = member.guild.channels.cache.get(channelID);
+      const sChannel = guild.channels.cache.get(channelID);
 
       await channel.send({ embeds: [embed], components: [button] });
       await sChannel.send({ embeds: [sEmbed], content: `@here` });
