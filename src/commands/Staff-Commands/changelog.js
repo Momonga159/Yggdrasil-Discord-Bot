@@ -10,7 +10,7 @@ const {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("changelog")
-    .setDescription("Setup the changelog system.159")
+    .setDescription("Setup the changelog system.")
     .addChannelOption((option) =>
       option
         .setName("channel")
@@ -31,12 +31,21 @@ module.exports = {
         text: "By Yggdrasil-Bot | made by _Momonga_",
         iconURL: "https://cdn.discordapp.com/app-icons/1186362076084568074/f21b6cde064b4f566e493f9a13d18a3f.png",
       });
+
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
         .setCustomId("changelogBtn")
         .setLabel("Changelog")
         .setStyle(ButtonStyle.Secondary)
-        .setEmoji("⚙️")
+        .setEmoji("⚙️"),
+      new ButtonBuilder()
+        .setCustomId("betaOnBtn")
+        .setLabel("Beta On")
+        .setStyle(ButtonStyle.Success),
+      new ButtonBuilder()
+        .setCustomId("betaOffBtn")
+        .setLabel("Beta Off")
+        .setStyle(ButtonStyle.Danger)
     );
 
     await channel.send({ embeds: [eEmbed], components: [row] });

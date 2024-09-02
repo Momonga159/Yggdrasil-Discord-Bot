@@ -8,6 +8,8 @@ const {
   EmbedBuilder,
 } = require("discord.js");
 
+let betaTestStatus = false; // Global variable to keep track of the beta test status
+
 module.exports = async (interaction) => {
   if (!interaction) {
     console.error("interaction is undefined");
@@ -24,7 +26,7 @@ module.exports = async (interaction) => {
     return changelogNumber;
   };
 
-  if (interaction.customId == "changelogBtn") {
+  if (interaction.customId === "changelogBtn") {
     const modal = new ModalBuilder()
       .setTitle(`Changelog`)
       .setCustomId("changelogModal");
@@ -48,7 +50,7 @@ module.exports = async (interaction) => {
 
     modal.addComponents(firstRow, secondRow);
     await interaction.showModal(modal);
-  } else if (interaction.customId == "changelogModal") {
+  } else if (interaction.customId === "changelogModal") {
     const info = interaction.fields.getTextInputValue("infoChangelog");
     const topic = interaction.fields.getTextInputValue("topicChangelog");
 
@@ -59,18 +61,18 @@ module.exports = async (interaction) => {
 
     const changelogNumber = incrementChangelogCounter();
 
-    // Fetch the role to mention
     const roleId = '1203004654821183518'; // Replace with your role ID
-    const roleMention = `<@&${roleId}>`; // Correct format for role mention
+    const roleMention = `<@&${roleId}>`;
 
     const embed = new EmbedBuilder()
       .setColor("Blurple")
       .setTitle(`Changelog n° ${changelogNumber}`)
       .setDescription(`\`\`\`${info}\`\`\``) 
       .addFields(
-        { name: "Changelog Topic:", value: topic },
-        { name: "Updating Developer:", value: `${interaction.user}`, inline: true },
-        { name: "Log Entry Time:", value: new Date().toLocaleString(), inline: true }
+        { name: "📜 Changelog Topic:", value: `\n> ${topic}\n`, inline: true },
+        { name: "🧪 Beta Test:", value: betaTestStatus ? "● True\n" : "● False\n", inline: true },
+        { name: "👨‍💻 Updating Developer:", value: `\n● ${interaction.user}\n\u200B`, inline: false },
+        { name: "🕒 Log Entry Time:", value: `\n● ${new Date().toLocaleString()}\n`, inline: true }
       )
       .setFooter({
         text: `By ${interaction.client.user.username} | made by _Momonga_`,
@@ -88,7 +90,12 @@ module.exports = async (interaction) => {
 
     await interaction.reply({ embeds: [cpEmbed], ephemeral: true });
 
-    // Send the embed with a role mention using the correct format
     await channel.send({ content: roleMention, embeds: [embed] });
+  } else if (interaction.customId === "betaOnBtn") {
+    betaTestStatus = true;
+    await interaction.reply({ content: "Beta Test is now set to True.", ephemeral: true });
+  } else if (interaction.customId === "betaOffBtn") {
+    betaTestStatus = false;
+    await interaction.reply({ content: "Beta Test is now set to False.", ephemeral: true });
   }
 };
