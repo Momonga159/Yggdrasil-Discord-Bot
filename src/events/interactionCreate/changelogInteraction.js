@@ -52,24 +52,28 @@ module.exports = async (interaction) => {
     const info = interaction.fields.getTextInputValue("infoChangelog");
     const topic = interaction.fields.getTextInputValue("topicChangelog");
 
-    const { changelog_channel } = require('../../json/helpChannel.json')
-    const channelID = changelog_channel
+    const { changelog_channel } = require('../../json/helpChannel.json');
+    const channelID = changelog_channel;
 
     const channel = interaction.member.guild.channels.cache.get(channelID);
 
     const changelogNumber = incrementChangelogCounter();
+
+    // Fetch the role to mention
+    const roleId = '1203004654821183518'; // Replace with your role ID
+    const roleMention = `<@&${roleId}>`; // Correct format for role mention
 
     const embed = new EmbedBuilder()
       .setColor("Blurple")
       .setTitle(`Changelog n° ${changelogNumber}`)
       .setDescription(`\`\`\`${info}\`\`\``) 
       .addFields(
-        { name: "Changelog Topic:", value:`> topic` },
+        { name: "Changelog Topic:", value: topic },
         { name: "Updating Developer:", value: `${interaction.user}`, inline: true },
         { name: "Log Entry Time:", value: new Date().toLocaleString(), inline: true }
       )
       .setFooter({
-        text: "By Yggdrasil-Bot | made by _Momonga_",
+        text: `By ${interaction.client.user.username} | made by _Momonga_`,
         iconURL: "https://cdn.discordapp.com/app-icons/1186362076084568074/f21b6cde064b4f566e493f9a13d18a3f.png",
       })
       .setTimestamp();
@@ -78,11 +82,13 @@ module.exports = async (interaction) => {
       .setColor("DarkGreen")
       .setTitle("Changelog posted!")
       .setFooter({
-        text: "By Yggdrasil-Bot | made by _Momonga_",
+        text: `By ${interaction.client.user.username} | made by _Momonga_`,
         iconURL: "https://cdn.discordapp.com/app-icons/1186362076084568074/f21b6cde064b4f566e493f9a13d18a3f.png",
       });
 
     await interaction.reply({ embeds: [cpEmbed], ephemeral: true });
-    await channel.send({ embeds: [embed] });
+
+    // Send the embed with a role mention using the correct format
+    await channel.send({ content: roleMention, embeds: [embed] });
   }
 };
