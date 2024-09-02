@@ -30,7 +30,7 @@ module.exports = async (interaction, client) => {
       .setDescription(`You already have a ticket open at: ${existingChannel}`)
       .setFooter({
         text: "By Yggdrasil-Bot | made by _Momonga_",
-        iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+        iconURL: "https://cdn.discordapp.com/app-icons/1186362076084568074/f21b6cde064b4f566e493f9a13d18a3f.png",
       });
     if (existingChannel)
       return await interaction.reply({
@@ -126,7 +126,7 @@ module.exports = async (interaction, client) => {
         .setTimestamp()
         .setFooter({
           text: "By Yggdrasil-Bot | made by _Momonga_",
-          iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+          iconURL: "https://cdn.discordapp.com/app-icons/1186362076084568074/f21b6cde064b4f566e493f9a13d18a3f.png",
         });
 
       const sEmbed = new EmbedBuilder()
@@ -136,7 +136,7 @@ module.exports = async (interaction, client) => {
         .setTimestamp()
         .setFooter({
           text: "By Yggdrasil-Bot | made by _Momonga_",
-          iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+          iconURL: "https://cdn.discordapp.com/app-icons/1186362076084568074/f21b6cde064b4f566e493f9a13d18a3f.png",
         });
 
       const button = new ActionRowBuilder().addComponents(
@@ -165,7 +165,7 @@ module.exports = async (interaction, client) => {
         .setTimestamp()
         .setFooter({
           text: "By Yggdrasil-Bot | made by _Momonga_",
-          iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+          iconURL: "https://cdn.discordapp.com/app-icons/1186362076084568074/f21b6cde064b4f566e493f9a13d18a3f.png",
         });
       await interaction.reply({
         embeds: [otEmbed],
@@ -201,7 +201,7 @@ module.exports = async (interaction, client) => {
       .setDescription("Closing this ticket...")
       .setFooter({
         text: "By Yggdrasil-Bot | made by _Momonga_",
-        iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+        iconURL: "https://cdn.discordapp.com/app-icons/1186362076084568074/f21b6cde064b4f566e493f9a13d18a3f.png",
       });
     await interaction.reply({
       embeds: [cEmbed],
@@ -216,7 +216,7 @@ module.exports = async (interaction, client) => {
       )
       .setFooter({
         text: "By Yggdrasil-Bot | made by _Momonga_",
-        iconURL: "https://www.momonga-web.dev/src/images/logo_black_nobg.png",
+        iconURL: "https://cdn.discordapp.com/app-icons/1186362076084568074/f21b6cde064b4f566e493f9a13d18a3f.png",
       });
     setTimeout(async () => {
       await channel.delete().catch(() => {});
