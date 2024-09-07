@@ -305,7 +305,7 @@ module.exports = async (interaction) => {
       .setColor("Red")
       .addFields({
         name: "\u200B",
-        value: "❌ Your suggestion has been rejected!",
+        value: "❌ Your suggestion has been rejected! UNKNOWN LE PABO",
       });
 
     await interaction.update({ embeds: [newEmbed], components: [btnrow] });
