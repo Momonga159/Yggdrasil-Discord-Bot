@@ -57,7 +57,7 @@ module.exports = {
         }
       )
       .setFooter({
-        text: "Provided by Yggdrasil-Bot | made by _Momonga_",
+        text: "Provided by Yggdrasil-Bot | made by _Momonga_ | unknown le pabo qui fait du host de bot",
         iconURL: "https://cdn.discordapp.com/app-icons/1186362076084568074/f21b6cde064b4f566e493f9a13d18a3f.png",
       });
 
