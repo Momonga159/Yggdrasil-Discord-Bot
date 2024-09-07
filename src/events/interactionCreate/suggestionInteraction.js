@@ -302,7 +302,7 @@ module.exports = async (interaction) => {
       });
 
     const newEmbed = EmbedBuilder.from(message.embeds[0])
-      .setColor("Blue") // change to red
+      .setColor("Red") // change to red
       .addFields({
         name: "\u200B",
         value: "❌ Your suggestion has been rejected!",
