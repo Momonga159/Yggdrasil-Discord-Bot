@@ -1,49 +1,93 @@
-# Yggdrasil-Bot
 
-## Staff Commands
+# Yggdrasil-Bot: Discord Bot for Yggdrasil MMORPG Community Server
 
-### 1. Kick Command
-- Command: `/kick [user] [reason]`
- - Description: Kick a user from the server with a specified reason.
+Welcome to the **Yggdrasil-Bot** repository! This bot is designed to automate various tasks and enhance the experience within the Yggdrasil MMORPG community Discord server.
 
-### 2. Ban Command
-- Command: `/ban [user] [reason]`
- - Description: Ban a user from the server with a specified reason.
+## Table of Contents
 
-### 3. Changelog Command
-- Command: `/changelog [description]`
- - Description: Create a changelog for updates.
+- [Commands Overview](#commands-overview)
+  - [Giveaway Commands](#giveaway-commands)
+  - [Moderation Commands](#moderation-commands)
+  - [Community Commands](#community-commands)
 
-### 4. Giveaway Command
-- Command: `/giveaway [price] [description] [time]`
- - Description: Start a giveaway with a specified price and time.
+## Commands Overview
 
-### 5. Accept Command
-- Command: `/accept [suggestion_id] [message (optional)]`
- - Description: Accept a user suggestion based on its ID and send an optional message to the user.
+### Giveaway Commands
 
-### 6. Reject Command
-- Command: `/reject [suggestion_id] [reason (optional)]`
- - Description: Reject a user suggestion based on its ID and send an optional reason to the user.
+These commands manage giveaways, including starting, ending, pausing, unpausing, and rerolling winners:
 
-## User Commands
+- **`/start-giveaway`**  
+  Start a new giveaway with duration, prize, and winner count.  
+  [Source: `start-giveaway.js`](./start-giveaway.js)
 
-### 1. Recruitement Command
-- Command: `/recruitement-staff`
- - Description: Apply for a staff position in the server.
+- **`/end-giveaway`**  
+  Manually end an ongoing giveaway.  
+  [Source: `end-giveaway.js`](./end-giveaway.js)
 
-### 2. Unban Request Command
-- Command: `/unban-request [detail]`
- - Description: Request to be unbanned from the server with the detail of the ban.
+- **`/pause-giveaway`**  
+  Pause an ongoing giveaway.  
+  [Source: `pause-giveaway.js`](./pause-giveaway.js)
 
-### 3. Ticket Command
-- Command: `/ticket [issue]`
- - Description: Create a help ticket for server-related (discord & in-game) issues.
+- **`/unpause-giveaway`**  
+  Unpause a paused giveaway.  
+  [Source: `unpause-giveaway.js`](./unpause-giveaway.js)
 
-### 4. Help Command
-- Command: `/help`
- - Description: Display all commands available for users.
+- **`/reroll-giveaway`**  
+  Reroll a giveaway to choose a new winner.  
+  [Source: `reroll-giveaway.js`](./reroll-giveaway.js)
 
-### 5. Suggestion Command
-- Command: `/suggestion [idea]`
- - Description: Submit a suggestion to improve the server
+- **`/drop-giveaway`**  
+  Start a drop-style giveaway, where the first to react wins.  
+  [Source: `drop-giveaway.js`](./drop-giveaway.js)
+
+### Moderation Commands
+
+Manage your server's members with these moderation tools:
+
+- **`/ban`**  
+  Ban a user from the server.  
+  [Source: `ban.js`](./ban.js)
+
+- **`/kick`**  
+  Kick a user from the server.  
+  [Source: `kick.js`](./kick.js)
+
+- **`/unban-request`**  
+  Set up or manage unban requests.  
+  [Source: `unban-request.js`](./unban-request.js)
+
+### Community Commands
+
+Commands to enhance community interaction and provide users with useful information:
+
+- **`/recruitment`**  
+  Set up recruitment messages to allow users to apply for specific roles.  
+  [Source: `recruitment.js`](./recruitment.js)
+
+- **`/ticket`**  
+  Manage the ticket system, allowing users to create support tickets.  
+  [Source: `ticket.js`](./ticket.js)
+
+- **`/suggestion`**  
+  Set up a suggestion system for users to provide feedback or ideas.  
+  [Source: `suggestion.js`](./suggestion.js)
+
+- **`/help`**  
+  Display a help menu with links to key channels, such as recruitment, unban requests, and tickets.  
+  [Source: `help.js`](./help.js)
+
+- **`/rules`**  
+  Display server rules in an embedded message.  
+  [Source: `rules.js`](./rules.js)
+
+- **`/findus`**  
+  List all relevant links, including the official website, wiki, social media, and more.  
+  [Source: `findus.js`](./findus.js)
+
+### Changelog
+
+Track bot updates and version information:
+
+- **`/changelog`**  
+  Set up a changelog system to inform users of bot or server updates.  
+  [Source: `changelog.js`](./changelog.js)
